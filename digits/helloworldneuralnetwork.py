@@ -13,8 +13,9 @@ torch.nn is used for neural network operations and torch.optim is for neural net
 """
 
 # now we define the neural network, training utilities, and the dataset:
-network = nn.Linear(1,1) # we are just creating a straight line here (computation graph)
-optimizer = optim.SGD(network.parameters(), lr=0.1) # setting up the optimizers: here we are specifying the step size! (think of the bowl)
+net = nn.Linear(1,1) # we are just creating a straight line here (computation graph)
+# using stochastic gradient descent
+optimizer = optim.SGD(net.parameters(), lr=0.1) # setting up the optimizers: here we are specifying the step size! (think of the bowl)
 criterion = nn.MSELoss() # setting up the criterion
 x, target = torch.randn((1,)), torch.tensor([0.]) # setting up the data we'll use
 
@@ -37,10 +38,10 @@ iterator = 10
 # equivalent to stepping closer to the center of the bowl!
 # the negative gradient points to the lowest point in the bowl
 for k in range(iterator):
-    output = network(x)
+    output = net(x)
     loss = criterion(output, target)
     print(round(loss.item(), 2))
 
-    network.zero_grad() # have to clear the gradient or else it will keep getting added up
+    net.zero_grad() # have to clear the gradient or else it will keep getting added up
     loss.backward() # compute new gradients
     optimizer.step() # uses the gradients to take steps
